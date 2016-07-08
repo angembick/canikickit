@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  root 'application#home'
+  #root 'application#home'
+  root 'games#index'
 
-  get '/games', to: 'games#index'
+  #get '/games', to: 'games#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
