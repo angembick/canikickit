@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
 
   def index
-    @games = Game.where('time > ?', DateTime.now.beginning_of_day.strftime('%Q')).order(:time)
+    @games = Game.where('time > ?', (DateTime.now - 1.hour).strftime('%Q')).where('time < ?', (DateTime.now.beginning_of_day + 1.day).strftime('%Q')).order(:time)
     @hash = Gmaps4rails.build_markers(@games) do |game, marker|
       marker.lat game.loc_lat
       marker.lng game.loc_lon
