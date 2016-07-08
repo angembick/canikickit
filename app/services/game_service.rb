@@ -4,8 +4,8 @@ class GameService
   #make call and for each item in return populate data
 
   def self.get_games
-    today = (DateTime.now.beginning_of_day  + 2.day).strftime('%Q')
-    tomorrow = (DateTime.now.beginning_of_day + 3.day).strftime('%Q')
+    today = DateTime.now.beginning_of_day.strftime('%Q')
+    tomorrow = (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
     params = { 
           zip: '11222',
           radius: '10',
