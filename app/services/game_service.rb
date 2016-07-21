@@ -28,6 +28,7 @@ class GameService
           name: r["name"],
           game_id: r["id"],
           time: r["time"],
+          event_url: r["event_url"],
           game_updated: r["updated"],
           group_name: r["group"]["name"],
           group_lon: r["group"]["group_lon"],

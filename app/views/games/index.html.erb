@@ -25,15 +25,19 @@
         </div>
         <div class="row row-offcanvas row-offcanvas-right">
           <div class="row">
-            <div class="col-xs-6 col-lg-4">
+            <div class="col-lg-6">
               <div >
                 <div id="map" style=' height: 80vh;'></div>
               </div>
             </div>
-            <div class="col-xs-6 col-lg-4 words" >
+            <div class="col-lg-6 words" style="max-height: 80vh; overflow:hidden; overflow-y:scroll;" >
               <% @games.each do |game| %>
-                <h3><%=  Time.at(game.time/1000).to_datetime.to_formatted_s(:time) %> @ <%= game.loc_name %> </h3>
-                <p><small><%= game.name %> | <%= game.yes_rsvp_count %> of <%= game.rsvp_limit %> spots taken <%= link_to('RSVP','http://www.meetup.com/'+game.group_urlname) %></small></p>
+                <h3><%=  game.am_pm(game.time) %>
+                  <% if game.loc_name.present? %>
+                    @ <%= game.loc_name %> 
+                  <% end %>
+                </h3>
+                <p><small><%= game.name %> | <%= game.yes_rsvp_count %> of <%= game.rsvp_limit %> spots taken <%= link_to('RSVP',game.event_url) %></small></p>
               <% end %>
             </div>
           </div>
