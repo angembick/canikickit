@@ -41,6 +41,9 @@ gem 'bootstrap-sass', '~> 3.2.0'
 #recommended. It automatically adds the proper vendor prefixes to your CSS code when it is compiled.
 gem 'autoprefixer-rails'
 
+gem 'sidekiq'
+gem 'sidetiq'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
