@@ -1,6 +1,6 @@
 class DailyGamePopulationWorker
   include Sidekiq::Worker 
-  include Sidetiq::Scheduable
+  include Sidetiq::Schedulable
 
   #will run at 1:00 am each day based in utc time
   recurrence { daily.hour_of_day(5) }
