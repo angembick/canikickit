@@ -32,7 +32,7 @@
             </div>
             <div class="col-lg-6 words" style="max-height: 80vh; overflow:hidden; overflow-y:scroll;" >
               <% @games.each do |game| %>
-                <h3><%=  game.am_pm(game.time) %>
+                <h3><%=  game.am_pm(game.time, game.utc_offset) %>
                   <% if game.loc_name.present? %>
                     @ <%= game.loc_name %> 
                   <% end %>
