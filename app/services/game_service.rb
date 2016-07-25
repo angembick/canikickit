@@ -1,11 +1,13 @@
 class GameService
   #define instance opject
 
-  #make call and for each item in return populate data
 
-  def self.get_games
+  def self.get_todays_games
     today = DateTime.now.beginning_of_day.strftime('%Q')
     tomorrow = (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
+    todays_stored_games = Game.where('time > ?', today).where('time < ?', tomorrow)
+    return if todays_stored_games.size > 0
+
     params = { 
           zip: '11222',
           radius: '10',
@@ -17,49 +19,46 @@ class GameService
     events = meetup_api.open_events(params)
 
     if events["results"].present?
-      events["results"].each do |r| 
-        game = Game.new(      
-          utc_offset: r["utc_offset"],
-          rsvp_limit: r["rsvp_limit"],
-          distance: r["distance"],
-          fee_amount: r["fee"].present? ? r["fee"]["amount"] : r["fee"],
-          yes_rsvp_count: r["yes_rsvp_count"],
-          duration: r["duration"],
-          name: r["name"],
-          game_id: r["id"],
-          time: r["time"],
-          event_url: r["event_url"],
-          game_updated: r["updated"],
-          group_name: r["group"]["name"],
-          group_lon: r["group"]["group_lon"],
-          group_lat: r["group"]["group_lat"],
-          group_id: r["group"]["id"],
-          group_urlname: r["group"]["urlname"],
-          group_who: r["group"]["who"],
-          status: r["status"]
-        )
-        begin
-          game_details = meetup_api.events(event_id: game.game_id)["results"].first["venue"]
-          game.loc_lat =  game_details["lat"]
-          game.loc_lon = game_details["lon"]
-          game.loc_name = game_details["name"]
-        rescue
-        end
+      events["results"].each do |game_data| 
+        game = new_game_object(game_data)
         game.save
       end
     end
   end
 
-  #update 
-    #if  it exists 
-      #WITH same updated time skip, 
-      #else  update
-    #else populate
 
-    #also check if there are any ids that did no longer exist today and update
+protected
 
+  def self.new_game_object(game_data)
+    game = Game.new(      
+      utc_offset: game_data["utc_offset"],
+      rsvp_limit: game_data["rsvp_limit"],
+      distance: game_data["distance"],
+      fee_amount: game_data["fee"].present? ? game_data["fee"]["amount"] : game_data["fee"],
+      yes_rsvp_count: game_data["yes_rsvp_count"],
+      duration: game_data["duration"],
+      name: game_data["name"],
+      game_id: game_data["id"],
+      time: game_data["time"],
+      event_url: game_data["event_url"],
+      game_updated: game_data["updated"],
+      group_name: game_data["group"]["name"],
+      group_lon: game_data["group"]["group_lon"],
+      group_lat: game_data["group"]["group_lat"],
+      group_id: game_data["group"]["id"],
+      group_urlname: game_data["group"]["urlname"],
+      group_who: game_data["group"]["who"],
+      status: game_data["status"],
+      display: true
+    )
+    begin
+      game_details = meetup_api.events(event_id: game.game_id)["results"].first["venue"]
+      game.loc_lat =  game_details["lat"]
+      game.loc_lon = game_details["lon"]
+      game.loc_name = game_details["name"]
+    rescue
+    end
+    return game
+  end
 
-
-
-    #and it has a new updated time or if event with id does not exist 
 end
