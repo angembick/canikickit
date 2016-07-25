@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721192250) do
+ActiveRecord::Schema.define(version: 20160725141551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,6 +181,7 @@ ActiveRecord::Schema.define(version: 20160721192250) do
     t.float    "loc_lon"
     t.string   "loc_name"
     t.string   "event_url"
+    t.boolean  "display"
   end
 
   create_table "hires", force: :cascade do |t|
