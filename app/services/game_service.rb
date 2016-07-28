@@ -55,9 +55,6 @@ class GameService
     end
   end
 
-
-protected
-
   def self.new_game_object(game_data)
     game = Game.new(      
       utc_offset: game_data["utc_offset"],
