@@ -42,7 +42,7 @@ class GameService
     end
   end
 
-  def update_games
+  def self.update_games
     games = GameService.todays_stored_games
     games_hash = Hash[games.map{|game| [game.game_id, game.game_updated] } ]
     todays_games = GameService.get_todays_games
