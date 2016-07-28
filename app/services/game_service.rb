@@ -1,12 +1,16 @@
 class GameService
   #define instance opject
+  @@today = DateTime.now.beginning_of_day.strftime('%Q')
+  @@tomorrow= (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
 
+  def self.todays_stored_games
+    return Game.where('time > ?', @@today).where('time < ?', @@tomorrow)
+  end
 
   def self.get_todays_games
     today = DateTime.now.beginning_of_day.strftime('%Q')
     tomorrow = (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
-    todays_stored_games = Game.where('time > ?', today).where('time < ?', tomorrow)
-    return if todays_stored_games.size > 0
+    todays_games = []
 
     params = { 
           zip: '11222',
@@ -21,6 +25,33 @@ class GameService
     if events["results"].present?
       events["results"].each do |game_data| 
         game = new_game_object(game_data)
+        todays_games << game
+      end
+    end
+
+    return todays_games
+  end
+
+  def self.create_games(games)
+    games.each do |game|
+      begin
+        game.save
+      rescue
+        Rails.logger.error "Could not save game_id: #{game.game_id}"
+      end
+    end
+  end
+
+  def update_games
+    games = GameService.todays_stored_games
+    games_hash = Hash[games.map{|game| [game.game_id, game.game_updated] } ]
+    todays_games = GameService.get_todays_games
+    todays_games.each do |game|
+      if games_hash.has_key?(game.game_id)
+        if games_hash[game.game_id] != game.game_updated
+          Game.where(game_id: game.game_id).update_all(game.serializable_hash.except('id'))
+        end
+      else
         game.save
       end
     end
