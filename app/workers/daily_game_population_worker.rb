@@ -6,7 +6,10 @@ class DailyGamePopulationWorker
   recurrence { daily.hour_of_day(5) }
 
   def perform
-    GameService.get_todays_games
+    if GameService.todays_stored_games.blank?
+      todays_games = GameService.get_todays_games
+      GameService.create_games(todays_games)
+    end
   end
 
 end
