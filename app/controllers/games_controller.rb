@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
 
   def index
+    GameService.update_games
     @games = Game.where('time > ?', (DateTime.now - 1.hour).strftime('%Q')).where('time < ?', (DateTime.now.beginning_of_day + 1.day).strftime('%Q')).order(:time)
     @hash = Gmaps4rails.build_markers(@games) do |game, marker|
       if (game.loc_lat.nil? || game.loc_lon.nil?)
