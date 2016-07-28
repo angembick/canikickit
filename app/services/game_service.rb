@@ -8,8 +8,6 @@ class GameService
   end
 
   def self.get_todays_games
-    today = DateTime.now.beginning_of_day.strftime('%Q')
-    tomorrow = (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
     todays_games = []
 
     params = { 
@@ -18,13 +16,13 @@ class GameService
           format: 'json',
           page: '50',
           topic: 'soccer',
-          time: today+','+tomorrow}
+          time: @@today+','+@@tomorrow}
     meetup_api = MeetupApi.new
     events = meetup_api.open_events(params)
 
     if events["results"].present?
       events["results"].each do |game_data| 
-        game = new_game_object(game_data)
+        game = GameService.new_game_object(game_data)
         todays_games << game
       end
     end
@@ -83,6 +81,7 @@ protected
       display: true
     )
     begin
+      meetup_api = MeetupApi.new
       game_details = meetup_api.events(event_id: game.game_id)["results"].first["venue"]
       game.loc_lat =  game_details["lat"]
       game.loc_lon = game_details["lon"]
