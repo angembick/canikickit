@@ -16,3 +16,18 @@
 
 @import "bootstrap-sprockets"
 @import "bootstrap"
+
+$fix-desktop-height: 80vh
+$break-small: 330px
+
+.game-info
+  max-height: $fix-desktop-height
+  overflow:hidden
+  overflow-y: scroll
+  @media screen and (max-width: $break-small)
+    background: red
+  
+#map 
+  height: $fix-desktop-height
+  @media screen and (max-width: $break-small)
+    height: 30vh
