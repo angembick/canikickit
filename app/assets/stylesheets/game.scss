@@ -19,7 +19,13 @@ h2 {
 }
 
 h1 {
-  font-size: 250%;
+  font-size: 250%;  
+}
+
+.page-header{
+  @media only screen and (max-width: 400px) {
+    display: none;
+  }
 }
 
 .game-info {
