@@ -1,0 +1,40 @@
+$fix-desktop-height: 80vh;
+$fix-mobile-height: 30vh;
+$break-small: 330px;
+
+body {
+  font-size: 16px;
+}
+
+p {
+  font-size: 120%;
+}
+
+h3 {
+  font-size: 180%;
+}
+
+h2 {
+  font-size: 210%;
+}
+
+h1 {
+  font-size: 250%;
+}
+
+.game-info {
+  max-height: $fix-desktop-height;
+  overflow:hidden;
+  overflow-y: scroll;
+  @media only screen and (max-width: 400px) {
+    c: pink;
+    overflow: visible;
+  }
+}
+  
+#map {
+  height: $fix-desktop-height;
+  @media only screen and (max-width: 400px) {
+    height: $fix-mobile-height;
+  }
+}
