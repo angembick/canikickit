@@ -1,7 +1,9 @@
 class GameService
   #define instance opject
   @@today = DateTime.now.beginning_of_day.strftime('%Q')
-  @@tomorrow= (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
+  #@@tomorrow= (DateTime.now.beginning_of_day + 1.day).strftime('%Q')
+  #update to show next 24 hours not just present day
+  @@tomorrow= (DateTime.now + 1.day).strftime('%Q')
 
   def self.todays_stored_games
     return Game.where('time > ?', @@today).where('time < ?', @@tomorrow)
