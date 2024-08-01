@@ -37,7 +37,7 @@ gem 'meetup_client'
 #user client for gmaps
 gem 'gmaps4rails'
 #add bootstrap
-gem 'bootstrap-sass', '~> 3.2.0'
+gem 'bootstrap-sass', '~> 3.4.1'
 #recommended. It automatically adds the proper vendor prefixes to your CSS code when it is compiled.
 gem 'autoprefixer-rails'
 
